@@ -1,15 +1,23 @@
 package com.example.firstProject.domain;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Message {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 2048, message = "Message too long")
     private String text;
+
+    @NotBlank(message = "Please fill the tag")
+    @Length(max = 255, message = "Tag too long")
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -30,11 +38,11 @@ public class Message {
         return author != null ? author.getUsername() : "none";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
